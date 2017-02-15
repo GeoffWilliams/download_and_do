@@ -7,12 +7,14 @@
 # a local update and reinstall
 #
 # @param source Location to download archive from
-# @param download_dir Directory to download archive to
+# @param download_dir Directory to download archive to if not using module default
 # @param local_file Where to save the file (inside $download_dir)
 # @param extract_dir Directory to extract archive to
 # @param checksum Checksum of local archive file to see if update needed (SHA1)
 # @param run_relative Commands to run (relative to Extract dir) after downloading
 # @param path PATH (array) to use when running command after extraction
+# @param creates Presence of this file indicates we do not need to download or
+#   execute anything
 define download_and_do::extract_and_run(
     $source,
     $run_relative,
@@ -21,6 +23,7 @@ define download_and_do::extract_and_run(
     $extract_dir    = $download_and_do::extract_dir,
     $checksum       = undef,
     $path           = $download_and_do::path,
+    $creates        = undef,
 ) {
 
   $run_relative_exec  = "run_relative after install ${title}"
@@ -40,6 +43,7 @@ define download_and_do::extract_and_run(
     checksum      => $checksum,
     checksum_type => $checksum_type,
     cleanup       => true,
+    creates       => $creates,
     notify        => Exec[$run_relative_exec]
   }
 
@@ -47,6 +51,7 @@ define download_and_do::extract_and_run(
   exec { $run_relative_exec:
     command     => "cd ${extract_dir} && ${run_relative}",
     refreshonly => true,
+    creates     => $creates,
     path        => $path,
   }
 }

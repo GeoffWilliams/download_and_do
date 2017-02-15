@@ -6,14 +6,18 @@
 #
 # @param source File to download
 # @param local_file Where to save the file (inside $download_dir)
+# @param download_dir Drectory to download to instead of module default
 # @param path PATH to use for executing file
 # @param checksum Checksum (SHA1) of file, used to detect updates
+# @param creates Presence of this file indicates we do not need to download or 
+#   execute anything
 define download_and_do::run(
   $source,
   $local_file   = $title,
   $download_dir = $download_and_do::download_dir,
   $path         = $download_and_do::path,
   $checksum     = undef,
+  $creates      = undef,
 ) {
 
   $run_file_exec    = "run after download ${title}"
@@ -32,6 +36,7 @@ define download_and_do::run(
     source        => $source,
     checksum      => $checksum,
     checksum_type => $checksum_type,
+    creates       => $creates,
     notify        => Exec[$run_file_exec]
   }
 
@@ -39,6 +44,7 @@ define download_and_do::run(
     command     => "chmod +x ${local_file_path} && ${local_file_path}",
     refreshonly => true,
     path        => $path,
+    creates     => $creates,
   }
 
 }

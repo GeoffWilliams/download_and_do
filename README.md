@@ -23,7 +23,7 @@ download_and_do::extract_and_run { "test.tar.gz":
   run_relative => "cp test.txt /extract_and_run",
 }
 ```
-Download from `source` to `title`, then perform the command at `run_relative`
+Download from `source` to `title`, then perform the command at `run_relative`.  Pass the `creates` parameter to specify the presence of a file that means that the resource is already converged.
 
 ### Download, Run
 ```
@@ -32,7 +32,7 @@ download_and_do::run { "test.sh":
 }
 ```
 
-Download from `source` to `title`, then make the local file executable and run it.
+Download from `source` to `title`, then make the local file executable and run it.  Pass the `creates` parameter to specify the presence of a file that means that the resource is already converged.
 
 ## Reference
 
