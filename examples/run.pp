@@ -1,7 +1,9 @@
 # @PDQTest
 include download_and_do
 download_and_do::run { "test.sh":
-  source => "/cut/spec/fixtures/test.sh",
+  source       => "/cut/spec/fixtures/test.sh",
+  user         => "bob",
+  download_dir => "/usr/download",
 }
 
 # second run to detect duplicate resources

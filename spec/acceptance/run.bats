@@ -1,9 +1,13 @@
 @test "downloaded OK" {
-  test -f "/var/cache/download_and_do/download/test.sh"
+  test -f "/usr/download/test.sh"
 }
 
 @test "command ran OK" {
-  grep "worked" /run_test
+  grep "worked" /tmp/run_test
+}
+
+@test "command ran as correct user" {
+  [[ $(stat -c %U /tmp/run_test) == "bob" ]]
 }
 
 @test "downloaded OK (2)" {

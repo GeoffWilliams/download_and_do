@@ -15,6 +15,9 @@
 # @param path PATH (array) to use when running command after extraction
 # @param creates Presence of this file indicates we do not need to download or
 #   execute anything
+# @param user User for file ownership and to run command with
+# @param group Group for file ownership
+# @param environment Environment variables (BASH) to run command with
 define download_and_do::extract_and_run(
     $source,
     $run_relative,
@@ -24,6 +27,9 @@ define download_and_do::extract_and_run(
     $checksum       = undef,
     $path           = $download_and_do::path,
     $creates        = undef,
+    $user           = undef,
+    $group          = undef,
+    $environment    = undef,
 ) {
 
   $run_relative_exec  = "run_relative after install ${title}"
@@ -44,6 +50,8 @@ define download_and_do::extract_and_run(
     checksum_type => $checksum_type,
     cleanup       => true,
     creates       => $creates,
+    user          => $user,
+    group         => $group,
     notify        => Exec[$run_relative_exec]
   }
 
@@ -53,5 +61,7 @@ define download_and_do::extract_and_run(
     refreshonly => true,
     creates     => $creates,
     path        => $path,
+    user        => $user,
+    environment => $environment,
   }
 }
