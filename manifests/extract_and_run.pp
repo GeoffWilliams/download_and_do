@@ -18,6 +18,7 @@
 # @param user User for file ownership and to run command with
 # @param group Group for file ownership
 # @param environment Environment variables (BASH) to run command with
+# @param allow_insecure Allow insecure HTTPS downloads
 define download_and_do::extract_and_run(
     $source,
     $run_relative,
@@ -30,6 +31,7 @@ define download_and_do::extract_and_run(
     $user           = undef,
     $group          = undef,
     $environment    = undef,
+    $allow_insecure = $download_and_do::allow_insecure,
 ) {
 
   $run_relative_exec  = "run_relative after install ${title}"
@@ -42,17 +44,18 @@ define download_and_do::extract_and_run(
   }
 
   archive { $local_file_path:
-    ensure        => present,
-    extract       => true,
-    extract_path  => $extract_dir,
-    source        => $source,
-    checksum      => $checksum,
-    checksum_type => $checksum_type,
-    cleanup       => true,
-    creates       => $creates,
-    user          => $user,
-    group         => $group,
-    notify        => Exec[$run_relative_exec]
+    ensure         => present,
+    extract        => true,
+    extract_path   => $extract_dir,
+    source         => $source,
+    checksum       => $checksum,
+    checksum_type  => $checksum_type,
+    cleanup        => true,
+    creates        => $creates,
+    user           => $user,
+    group          => $group,
+    allow_insecure => $allow_insecure,
+    notify         => Exec[$run_relative_exec]
   }
 
 

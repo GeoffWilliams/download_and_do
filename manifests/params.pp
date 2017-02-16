@@ -2,10 +2,11 @@
 #
 # Params pattern
 class download_and_do::params {
-  $base_dir     = "/var/cache/download_and_do"
-  $download_dir = "${base_dir}/download"
-  $extract_dir  = "${base_dir}/extract"
-  $path         = [
+  $allow_insecure = false
+  $base_dir       = "/var/cache/download_and_do"
+  $download_dir   = "${base_dir}/download"
+  $extract_dir    = "${base_dir}/extract"
+  $path           = [
     '/usr/bin',
     '/bin',
     '/usr/sbin',

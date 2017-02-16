@@ -15,17 +15,19 @@
 # @param group Group for file ownership
 # @param environment Environment variables (BASH) to run command with
 # @param arguments Arguments to pass to the downloaded file to be run
+# @param allow_insecure Allow insecure HTTPS downloads
 define download_and_do::run(
   $source,
-  $local_file   = $title,
-  $download_dir = $download_and_do::download_dir,
-  $path         = $download_and_do::path,
-  $checksum     = undef,
-  $creates      = undef,
-  $user         = undef,
-  $group        = undef,
-  $environment  = undef,
-  $arguments    = ""
+  $local_file     = $title,
+  $download_dir   = $download_and_do::download_dir,
+  $path           = $download_and_do::path,
+  $checksum       = undef,
+  $creates        = undef,
+  $user           = undef,
+  $group          = undef,
+  $environment    = undef,
+  $arguments      = "",
+  $allow_insecure = $download_and_do::allow_insecure,
 ) {
 
   $chmod_file_exec  = "chmod after download ${title}"
@@ -40,15 +42,16 @@ define download_and_do::run(
 
   # Download will always be owned by root, user parameter only for extract
   archive { $local_file_path:
-    ensure        => present,
-    extract       => false,
-    path          => $local_file_path,
-    source        => $source,
-    checksum      => $checksum,
-    checksum_type => $checksum_type,
-    creates       => $creates,
-    group         => $group,
-    notify        => Exec[$chmod_file_exec]
+    ensure         => present,
+    extract        => false,
+    path           => $local_file_path,
+    source         => $source,
+    checksum       => $checksum,
+    checksum_type  => $checksum_type,
+    creates        => $creates,
+    group          => $group,
+    allow_insecure => $allow_insecure,
+    notify         => Exec[$chmod_file_exec]
   }
 
   # chmod +x the script so it can be run natively.  Separate exec due to being
