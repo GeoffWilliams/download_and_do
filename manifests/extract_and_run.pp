@@ -15,6 +15,8 @@
 # @param path PATH (array) to use when running command after extraction
 # @param creates Presence of this file indicates we do not need to download or
 #   execute anything
+# @param unless Pass-through parameter to exec to control whether to run or not
+# @param onlyif Pass-through parameter to exec to control whether to run or not
 # @param user User for file ownership and to run command with
 # @param group Group for file ownership
 # @param environment Environment variables (BASH) to run command with
@@ -28,6 +30,8 @@ define download_and_do::extract_and_run(
     $checksum       = undef,
     $path           = $download_and_do::path,
     $creates        = undef,
+    $unless         = undef,
+    $onlyif         = undef,
     $user           = undef,
     $group          = undef,
     $environment    = undef,
@@ -63,6 +67,8 @@ define download_and_do::extract_and_run(
     command     => "cd ${extract_dir} && ${run_relative}",
     refreshonly => true,
     creates     => $creates,
+    unless      => $unless,
+    onlyif      => $onlyif,
     path        => $path,
     user        => $user,
     environment => $environment,

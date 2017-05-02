@@ -11,6 +11,8 @@
 # @param checksum Checksum (SHA1) of file, used to detect updates
 # @param creates Presence of this file indicates we do not need to download or
 #   execute anything
+# @param unless Pass-through parameter to exec to control whether to run or not
+# @param onlyif Pass-through parameter to exec to control whether to run or not
 # @param user User for file ownership and to run command with
 # @param group Group for file ownership
 # @param environment Environment variables (BASH) to run command with
@@ -23,6 +25,8 @@ define download_and_do::run(
   $path           = $download_and_do::path,
   $checksum       = undef,
   $creates        = undef,
+  $unless         = undef,
+  $onlyif         = undef,
   $user           = undef,
   $group          = undef,
   $environment    = undef,
@@ -69,6 +73,8 @@ define download_and_do::run(
     refreshonly => true,
     path        => $path,
     creates     => $creates,
+    unless      => $unless,
+    onlyif      => $onlyif,
     user        => $user,
     environment => $environment,
   }
