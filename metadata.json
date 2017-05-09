@@ -1,6 +1,6 @@
 {
   "name": "geoffwilliams-download_and_do",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "author": "geoffwilliams",
   "summary": "Download a file from somewhere and do something with it (eg run...)",
   "license": "Apache-2.0",

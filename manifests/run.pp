@@ -18,6 +18,7 @@
 # @param environment Environment variables (BASH) to run command with
 # @param arguments Arguments to pass to the downloaded file to be run
 # @param allow_insecure Allow insecure HTTPS downloads
+# @param provider Set the exec provider - needed if `cd` is a builtin
 define download_and_do::run(
   $source,
   $local_file     = $title,
@@ -32,6 +33,7 @@ define download_and_do::run(
   $environment    = undef,
   $arguments      = "",
   $allow_insecure = $download_and_do::allow_insecure,
+  $provider       = $download_and_do::provider,
 ) {
 
   $chmod_file_exec  = "chmod after download ${title}"
@@ -77,6 +79,7 @@ define download_and_do::run(
     onlyif      => $onlyif,
     user        => $user,
     environment => $environment,
+    provider    => $provider,
   }
 
 }

@@ -36,6 +36,7 @@ define download_and_do::extract_and_run(
     $group          = undef,
     $environment    = undef,
     $allow_insecure = $download_and_do::allow_insecure,
+    $provider       = $download_and_do::provider,
 ) {
 
   $run_relative_exec  = "run_relative after install ${title}"
@@ -72,5 +73,6 @@ define download_and_do::extract_and_run(
     path        => $path,
     user        => $user,
     environment => $environment,
+    provider    => $provider,
   }
 }

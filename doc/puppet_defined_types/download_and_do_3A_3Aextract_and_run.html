@@ -335,6 +335,19 @@ anything</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>provider</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>$download_and_do::provider</tt>)</em>
+      
+      
+    </li>
+  
 </ul>
 
 
@@ -397,7 +410,9 @@ anything</p>
 73
 74
 75
-76</pre>
+76
+77
+78</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/extract_and_run.pp', line 24</span>
@@ -417,6 +432,7 @@ define download_and_do::extract_and_run(
     $group          = undef,
     $environment    = undef,
     $allow_insecure = $download_and_do::allow_insecure,
+    $provider       = $download_and_do::provider,
 ) {
 
   $run_relative_exec  = &quot;run_relative after install ${title}&quot;
@@ -453,6 +469,7 @@ define download_and_do::extract_and_run(
     path        =&gt; $path,
     user        =&gt; $user,
     environment =&gt; $environment,
+    provider    =&gt; $provider,
   }
 }</pre>
       </td>

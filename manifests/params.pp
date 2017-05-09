@@ -14,4 +14,5 @@ class download_and_do::params {
     '/usr/local/bin',
     '/usr/local/sbin'
   ]
+  $provider       = 'shell'
 }

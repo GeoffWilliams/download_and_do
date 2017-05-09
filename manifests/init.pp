@@ -11,6 +11,7 @@ class download_and_do(
     $extract_dir    = $download_and_do::params::extract_dir,
     $download_dir   = $download_and_do::params::download_dir,
     $allow_insecure = $download_and_do::params::allow_insecure,
+    $provider       = $download_and_do::params::provider,
 ) inherits download_and_do::params {
 
   file { [$base_dir, $extract_dir, $download_dir]:
