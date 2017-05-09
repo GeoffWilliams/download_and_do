@@ -335,6 +335,36 @@ anything</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>How</span>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>long to wait before killing command we were told to run, in seconds. Pass
+<code>0</code> to wait upto forever seconds for the command to complete</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>timeout</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+    </li>
+  
 </ul>
 
 
@@ -345,8 +375,6 @@ anything</p>
         <pre class="lines">
 
 
-22
-23
 24
 25
 26
@@ -408,10 +436,14 @@ anything</p>
 82
 83
 84
-85</pre>
+85
+86
+87
+88
+89</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/run.pp', line 22</span>
+        <pre class="code"><span class="info file"># File 'manifests/run.pp', line 24</span>
 
 define download_and_do::run(
   $source,
@@ -428,6 +460,7 @@ define download_and_do::run(
   $arguments      = &quot;&quot;,
   $allow_insecure = $download_and_do::allow_insecure,
   $provider       = $download_and_do::provider,
+  $timeout        = undef,
 ) {
 
   $chmod_file_exec  = &quot;chmod after download ${title}&quot;
@@ -474,6 +507,7 @@ define download_and_do::run(
     user        =&gt; $user,
     environment =&gt; $environment,
     provider    =&gt; $provider,
+    timeout     =&gt; $timeout,
   }
 
 }</pre>

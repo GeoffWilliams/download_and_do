@@ -21,6 +21,9 @@
 # @param group Group for file ownership
 # @param environment Environment variables (BASH) to run command with
 # @param allow_insecure Allow insecure HTTPS downloads
+# @param provider Set the exec provider - needed if `cd` is a builtin
+# @param How long to wait before killing command we were told to run, in seconds.
+#   Pass `0` to wait upto forever seconds for the command to complete
 define download_and_do::extract_and_run(
     $source,
     $run_relative,
@@ -37,6 +40,7 @@ define download_and_do::extract_and_run(
     $environment    = undef,
     $allow_insecure = $download_and_do::allow_insecure,
     $provider       = $download_and_do::provider,
+    $timeout        = undef,
 ) {
 
   $run_relative_exec  = "run_relative after install ${title}"
@@ -74,5 +78,6 @@ define download_and_do::extract_and_run(
     user        => $user,
     environment => $environment,
     provider    => $provider,
+    timeout     => $timeout,
   }
 }

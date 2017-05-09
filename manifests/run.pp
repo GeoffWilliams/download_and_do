@@ -19,6 +19,8 @@
 # @param arguments Arguments to pass to the downloaded file to be run
 # @param allow_insecure Allow insecure HTTPS downloads
 # @param provider Set the exec provider - needed if `cd` is a builtin
+# @param How long to wait before killing command we were told to run, in seconds.
+#   Pass `0` to wait upto forever seconds for the command to complete
 define download_and_do::run(
   $source,
   $local_file     = $title,
@@ -34,6 +36,7 @@ define download_and_do::run(
   $arguments      = "",
   $allow_insecure = $download_and_do::allow_insecure,
   $provider       = $download_and_do::provider,
+  $timeout        = undef,
 ) {
 
   $chmod_file_exec  = "chmod after download ${title}"
@@ -80,6 +83,7 @@ define download_and_do::run(
     user        => $user,
     environment => $environment,
     provider    => $provider,
+    timeout     => $timeout,
   }
 
 }
