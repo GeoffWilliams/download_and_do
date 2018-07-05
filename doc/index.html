@@ -6,7 +6,7 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.9.9
+    &mdash; Documentation by YARD 0.9.14
   
 </title>
 
@@ -62,17 +62,17 @@
 
 <h4 id="label-Table+of+Contents">Table of Contents</h4>
 <ol><li>
-<p><a href="#description">Description</a></p>
+<p><a href="#label-Description">Description</a></p>
 </li><li>
-<p><a href="#usage">Usage - Configuration options and additional
+<p><a href="#label-Usage">Usage - Configuration options and additional
 functionality</a></p>
 </li><li>
-<p><a href="#reference">Reference - An under-the-hood peek at what the module
+<p><a href="#label-Reference">Reference - An under-the-hood peek at what the module
 is doing and how</a></p>
 </li><li>
-<p><a href="#limitations">Limitations - OS compatibility, etc.</a></p>
+<p><a href="#label-Limitations">Limitations - OS compatibility, etc.</a></p>
 </li><li>
-<p><a href="#development">Development - Guide for contributing to the
+<p><a href="#label-Development">Development - Guide for contributing to the
 module</a></p>
 </li></ol>
 
@@ -86,26 +86,36 @@ either run directly or unpack and run a command.</p>
 
 <h3 id="label-Download-2C+Extract-2C+Run">Download, Extract, Run</h3>
 
-<pre class="code ruby"><code class="ruby">download_and_do::extract_and_run { &quot;test.tar.gz&quot;:
+<pre class="code ruby"><code class="ruby">include download_and_do
+download_and_do::extract_and_run { &quot;test.tar.gz&quot;:
   source       =&gt; &quot;http://blah/cut/spec/fixtures/test.tar.gz&quot;,
   run_relative =&gt; &quot;cp test.txt /extract_and_run&quot;,
-}</code></pre>
+}
+</code></pre>
 
 <p>Download from <code>source</code> to <code>title</code>, then perform the
 command at <code>run_relative</code>. Pass the <code>creates</code>
 parameter to specify the presence of a file that means that the resource is
 already converged.</p>
 
+<p>Local filename is a unique relative path within download and do download
+directory <code>/var/cache/download_and_do</code>.</p>
+
 <h3 id="label-Download-2C+Run">Download, Run</h3>
 
-<pre class="code ruby"><code class="ruby">download_and_do::run { &quot;test.sh&quot;:
+<pre class="code ruby"><code class="ruby">include download_and_do
+download_and_do::run { &quot;test.sh&quot;:
   source =&gt; &quot;http://blah/cut/spec/fixtures/test.sh&quot;
-}</code></pre>
+}
+</code></pre>
 
 <p>Download from <code>source</code> to <code>title</code>, then make the
 local file executable and run it. Pass the <code>creates</code> parameter
 to specify the presence of a file that means that the resource is already
 converged.</p>
+
+<p>Local filename is a unique relative path within download and do download
+directory <code>/var/cache/download_and_do</code>.</p>
 
 <h2 id="label-Reference">Reference</h2>
 
