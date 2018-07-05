@@ -1,0 +1,15 @@
+# data/common.yaml
+---
+download_and_do::allow_insecure: false
+download_and_do::base_dir: "/var/cache/download_and_do"
+download_and_do::download_dir: "/var/cache/download_and_do/download"
+download_and_do::extract_dir: "/var/cache/download_and_do/extract"
+download_and_do::path:
+  - '/usr/bin'
+  - '/bin'
+  - '/usr/sbin'
+  - '/sbin'
+  - '/usr/local/bin'
+  - '/usr/local/sbin'
+download_and_do::provider: 'shell'
+

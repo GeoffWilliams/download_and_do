@@ -358,23 +358,6 @@ anything</p>
   
     <li>
       
-        <span class='name'>How</span>
-      
-      
-        <span class='type'></span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>long to wait before killing command we were told to run, in seconds. Pass
-<code>0</code> to wait upto forever seconds for the command to complete</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
         <span class='name'>timeout</span>
       
       
@@ -383,6 +366,50 @@ anything</p>
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>How long to wait before killing command we were told to run, in seconds.
+Pass <code>0</code> to wait upto forever seconds for the command to
+complete</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>proxy_server</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>specify a proxy server, with port number if needed. ie: <a
+href="https://example.com:8080">example.com:8080</a>.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>proxy_type</span>
+      
+      
+        <span class='type'>(<tt>Any</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>undef</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>proxy server type (none|http|https|ftp)</p>
+</div>
       
     </li>
   
@@ -396,8 +423,6 @@ anything</p>
         <pre class="lines">
 
 
-27
-28
 29
 30
 31
@@ -452,10 +477,16 @@ anything</p>
 80
 81
 82
-83</pre>
+83
+84
+85
+86
+87
+88
+89</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/extract_and_run.pp', line 27</span>
+        <pre class="code"><span class="info file"># File 'manifests/extract_and_run.pp', line 29</span>
 
 define download_and_do::extract_and_run(
     $source,
@@ -474,6 +505,8 @@ define download_and_do::extract_and_run(
     $allow_insecure = $download_and_do::allow_insecure,
     $provider       = $download_and_do::provider,
     $timeout        = undef,
+    $proxy_server   = undef,
+    $proxy_type     = undef,
 ) {
 
   $run_relative_exec  = &quot;run_relative after install ${title}&quot;
@@ -497,6 +530,8 @@ define download_and_do::extract_and_run(
     user           =&gt; $user,
     group          =&gt; $group,
     allow_insecure =&gt; $allow_insecure,
+    proxy_server   =&gt; $proxy_server,
+    proxy_type     =&gt; $proxy_type,
     notify         =&gt; Exec[$run_relative_exec]
   }
 

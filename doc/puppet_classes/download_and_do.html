@@ -62,11 +62,6 @@
       <div id="content"><h1>Puppet Class: download_and_do</h1>
 <div class="box_info">
   
-  <dl>
-    <dt>Inherits:</dt>
-    <dd><span class='object_link'><a href="download_and_do_3A_3Aparams.html" title="puppet_classes::download_and_do::params (puppet_class)">download_and_do::params</a></span></dd>
-  </dl>
-  
   
   <dl>
     <dt>Defined in:</dt>
@@ -82,7 +77,8 @@
     
 <p>Download_and_do</p>
 
-<p>Download_and_do base class for setting global parameters</p>
+<p>Download_and_do base class to make download directories and for for setting
+default resource parameters</p>
 
 <p>Parameters on this class become defaults for download_and_do::run and
 download_and_do::extract_and_run defined resource types. See those classes
@@ -107,6 +103,11 @@ for a detailed explanation</p>
         <em class="default">(defaults to: <tt>$download_and_do::params::path</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>PATH variable to use when running commands (from module hiera data)</p>
+</div>
+      
     </li>
   
     <li>
@@ -119,6 +120,11 @@ for a detailed explanation</p>
       
         <em class="default">(defaults to: <tt>$download_and_do::params::base_dir</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>Parent directory for downloaded files (from module hiera data)</p>
+</div>
       
     </li>
   
@@ -133,6 +139,11 @@ for a detailed explanation</p>
         <em class="default">(defaults to: <tt>$download_and_do::params::extract_dir</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Directory to extract archives in (from module hiera data)</p>
+</div>
+      
     </li>
   
     <li>
@@ -145,6 +156,11 @@ for a detailed explanation</p>
       
         <em class="default">(defaults to: <tt>$download_and_do::params::download_dir</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>Directory to download files to (from module hiera data)</p>
+</div>
       
     </li>
   
@@ -159,6 +175,11 @@ for a detailed explanation</p>
         <em class="default">(defaults to: <tt>$download_and_do::params::allow_insecure</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Disable certificate validation (from module hiera data)</p>
+</div>
+      
     </li>
   
     <li>
@@ -172,6 +193,11 @@ for a detailed explanation</p>
         <em class="default">(defaults to: <tt>$download_and_do::params::provider</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Shell provider to use (from module hiera data)</p>
+</div>
+      
     </li>
   
 </ul>
@@ -184,14 +210,6 @@ for a detailed explanation</p>
         <pre class="lines">
 
 
-8
-9
-10
-11
-12
-13
-14
-15
 16
 17
 18
@@ -200,10 +218,18 @@ for a detailed explanation</p>
 21
 22
 23
-24</pre>
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 8</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 16</span>
 
 class download_and_do(
     $path           = $download_and_do::params::path,
@@ -212,7 +238,7 @@ class download_and_do(
     $download_dir   = $download_and_do::params::download_dir,
     $allow_insecure = $download_and_do::params::allow_insecure,
     $provider       = $download_and_do::params::provider,
-) inherits download_and_do::params {
+) {
 
   file { [$base_dir, $extract_dir, $download_dir]:
     ensure =&gt; directory,

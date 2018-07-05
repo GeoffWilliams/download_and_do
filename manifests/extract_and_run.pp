@@ -22,8 +22,10 @@
 # @param environment Environment variables (BASH) to run command with
 # @param allow_insecure Allow insecure HTTPS downloads
 # @param provider Set the exec provider - needed if `cd` is a builtin
-# @param How long to wait before killing command we were told to run, in seconds.
+# @param timeout How long to wait before killing command we were told to run, in seconds.
 #   Pass `0` to wait upto forever seconds for the command to complete
+# @param proxy_server specify a proxy server, with port number if needed. ie: https://example.com:8080.
+# @param proxy_type proxy server type (none|http|https|ftp)
 define download_and_do::extract_and_run(
     $source,
     $run_relative,
@@ -41,6 +43,8 @@ define download_and_do::extract_and_run(
     $allow_insecure = $download_and_do::allow_insecure,
     $provider       = $download_and_do::provider,
     $timeout        = undef,
+    $proxy_server   = undef,
+    $proxy_type     = undef,
 ) {
 
   $run_relative_exec  = "run_relative after install ${title}"
@@ -64,6 +68,8 @@ define download_and_do::extract_and_run(
     user           => $user,
     group          => $group,
     allow_insecure => $allow_insecure,
+    proxy_server   => $proxy_server,
+    proxy_type     => $proxy_type,
     notify         => Exec[$run_relative_exec]
   }
 

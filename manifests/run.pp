@@ -19,8 +19,10 @@
 # @param arguments Arguments to pass to the downloaded file to be run
 # @param allow_insecure Allow insecure HTTPS downloads
 # @param provider Set the exec provider - needed if `cd` is a builtin
-# @param How long to wait before killing command we were told to run, in seconds.
+# @param timeout How long to wait before killing command we were told to run, in seconds.
 #   Pass `0` to wait upto forever seconds for the command to complete
+# @param proxy_server specify a proxy server, with port number if needed. ie: https://example.com:8080.
+# @param proxy_type proxy server type (none|http|https|ftp)
 define download_and_do::run(
   $source,
   $local_file     = $title,
@@ -37,6 +39,8 @@ define download_and_do::run(
   $allow_insecure = $download_and_do::allow_insecure,
   $provider       = $download_and_do::provider,
   $timeout        = undef,
+  $proxy_server   = undef,
+  $proxy_type     = undef,
 ) {
 
   $chmod_file_exec  = "chmod after download ${title}"
@@ -60,6 +64,8 @@ define download_and_do::run(
     creates        => $creates,
     group          => $group,
     allow_insecure => $allow_insecure,
+    proxy_server   => $proxy_server,
+    proxy_type     => $proxy_type,
     notify         => Exec[$chmod_file_exec]
   }
 
