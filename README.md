@@ -18,6 +18,7 @@ Download files using [puppet-archive](https://forge.puppet.com/puppet/archive), 
 ### Download, Extract, Run
 
 ```puppet
+include download_and_do
 download_and_do::extract_and_run { "test.tar.gz":
   source       => "http://blah/cut/spec/fixtures/test.tar.gz",
   run_relative => "cp test.txt /extract_and_run",
@@ -25,14 +26,20 @@ download_and_do::extract_and_run { "test.tar.gz":
 ```
 Download from `source` to `title`, then perform the command at `run_relative`.  Pass the `creates` parameter to specify the presence of a file that means that the resource is already converged.
 
+Local filename is a unique relative path within download and do download directory `/var/cache/download_and_do`.
+
+
 ### Download, Run
 ```
+include download_and_do
 download_and_do::run { "test.sh":
   source => "http://blah/cut/spec/fixtures/test.sh"
 }
 ```
 
 Download from `source` to `title`, then make the local file executable and run it.  Pass the `creates` parameter to specify the presence of a file that means that the resource is already converged.
+
+Local filename is a unique relative path within download and do download directory `/var/cache/download_and_do`.
 
 ## Reference
 
