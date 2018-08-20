@@ -11,15 +11,15 @@
 # @param base_dir Parent directory for downloaded files (from module hiera data)
 # @param extract_dir Directory to extract archives in (from module hiera data)
 # @param download_dir Directory to download files to (from module hiera data)
-# @param allow_insecure Disable certificate validation (from module hiera data)
 # @param provider Shell provider to use (from module hiera data)
+# @param allow_insecure Disable certificate validation (from module hiera data)
 class download_and_do(
-    $path,
-    $base_dir,
-    $extract_dir,
-    $download_dir,
-    $allow_insecure,
-    $provider,
+    Variant[String, Array[String]]  $path,
+    String                          $base_dir,
+    String                          $extract_dir,
+    String                          $download_dir,
+    String                          $provider,
+    Boolean                         $allow_insecure = false,
 ) {
 
   file { [$base_dir, $extract_dir, $download_dir]:

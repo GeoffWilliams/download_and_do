@@ -92,7 +92,7 @@ to force a local update and reinstall</p>
         <span class='name'>source</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
       
@@ -108,7 +108,7 @@ to force a local update and reinstall</p>
         <span class='name'>local_file</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>$title</tt>)</em>
@@ -126,7 +126,7 @@ to force a local update and reinstall</p>
         <span class='name'>download_dir</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>$download_and_do::download_dir</tt>)</em>
@@ -144,7 +144,7 @@ to force a local update and reinstall</p>
         <span class='name'>path</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Variant[String, Array[String]]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>$download_and_do::path</tt>)</em>
@@ -162,7 +162,7 @@ to force a local update and reinstall</p>
         <span class='name'>checksum</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -180,7 +180,7 @@ to force a local update and reinstall</p>
         <span class='name'>creates</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -199,7 +199,7 @@ anything</p>
         <span class='name'>unless</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -217,7 +217,7 @@ anything</p>
         <span class='name'>onlyif</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -235,7 +235,7 @@ anything</p>
         <span class='name'>user</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -253,7 +253,7 @@ anything</p>
         <span class='name'>group</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -271,7 +271,7 @@ anything</p>
         <span class='name'>environment</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -289,7 +289,7 @@ anything</p>
         <span class='name'>arguments</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>&quot;&quot;</tt>)</em>
@@ -307,7 +307,7 @@ anything</p>
         <span class='name'>allow_insecure</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>$download_and_do::allow_insecure</tt>)</em>
@@ -325,7 +325,7 @@ anything</p>
         <span class='name'>provider</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>$download_and_do::provider</tt>)</em>
@@ -343,7 +343,7 @@ anything</p>
         <span class='name'>timeout</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Optional[Integer]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -363,7 +363,7 @@ complete</p>
         <span class='name'>proxy_server</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -382,7 +382,7 @@ href="https://example.com:8080">example.com:8080</a>.</p>
         <span class='name'>proxy_type</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Optional[String]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -480,23 +480,23 @@ href="https://example.com:8080">example.com:8080</a>.</p>
         <pre class="code"><span class="info file"># File 'manifests/run.pp', line 26</span>
 
 define download_and_do::run(
-  $source,
-  $local_file     = $title,
-  $download_dir   = $download_and_do::download_dir,
-  $path           = $download_and_do::path,
-  $checksum       = undef,
-  $creates        = undef,
-  $unless         = undef,
-  $onlyif         = undef,
-  $user           = undef,
-  $group          = undef,
-  $environment    = undef,
-  $arguments      = &quot;&quot;,
-  $allow_insecure = $download_and_do::allow_insecure,
-  $provider       = $download_and_do::provider,
-  $timeout        = undef,
-  $proxy_server   = undef,
-  $proxy_type     = undef,
+  String                          $source,
+  String                          $local_file     = $title,
+  String                          $download_dir   = $download_and_do::download_dir,
+  Variant[String, Array[String]]  $path           = $download_and_do::path,
+  Optional[String]                $checksum       = undef,
+  Optional[String]                $creates        = undef,
+  Optional[String]                $unless         = undef,
+  Optional[String]                $onlyif         = undef,
+  Optional[String]                $user           = undef,
+  Optional[String]                $group          = undef,
+  Optional[String]                $environment    = undef,
+  String                          $arguments      = &quot;&quot;,
+  Boolean                         $allow_insecure = $download_and_do::allow_insecure,
+  String                          $provider       = $download_and_do::provider,
+  Optional[Integer]               $timeout        = undef,
+  Optional[String]                $proxy_server   = undef,
+  Optional[String]                $proxy_type     = undef,
 ) {
 
   $chmod_file_exec  = &quot;chmod after download ${title}&quot;

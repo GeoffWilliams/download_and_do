@@ -97,10 +97,8 @@ for a detailed explanation</p>
         <span class='name'>path</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Variant[String, Array[String]]</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>$download_and_do::params::path</tt>)</em>
       
       
         &mdash;
@@ -115,10 +113,8 @@ for a detailed explanation</p>
         <span class='name'>base_dir</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>$download_and_do::params::base_dir</tt>)</em>
       
       
         &mdash;
@@ -133,10 +129,8 @@ for a detailed explanation</p>
         <span class='name'>extract_dir</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>$download_and_do::params::extract_dir</tt>)</em>
       
       
         &mdash;
@@ -151,10 +145,8 @@ for a detailed explanation</p>
         <span class='name'>download_dir</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>$download_and_do::params::download_dir</tt>)</em>
       
       
         &mdash;
@@ -166,36 +158,34 @@ for a detailed explanation</p>
   
     <li>
       
-        <span class='name'>allow_insecure</span>
+        <span class='name'>provider</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>String</tt>)</span>
       
-      
-        <em class="default">(defaults to: <tt>$download_and_do::params::allow_insecure</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>Disable certificate validation (from module hiera data)</p>
+<p>Shell provider to use (from module hiera data)</p>
 </div>
       
     </li>
   
     <li>
       
-        <span class='name'>provider</span>
+        <span class='name'>allow_insecure</span>
       
       
-        <span class='type'>(<tt>Any</tt>)</span>
+        <span class='type'>(<tt>Boolean</tt>)</span>
       
       
-        <em class="default">(defaults to: <tt>$download_and_do::params::provider</tt>)</em>
+        <em class="default">(defaults to: <tt>false</tt>)</em>
       
       
         &mdash;
         <div class='inline'>
-<p>Shell provider to use (from module hiera data)</p>
+<p>Disable certificate validation (from module hiera data)</p>
 </div>
       
     </li>
@@ -232,12 +222,12 @@ for a detailed explanation</p>
         <pre class="code"><span class="info file"># File 'manifests/init.pp', line 16</span>
 
 class download_and_do(
-    $path           = $download_and_do::params::path,
-    $base_dir       = $download_and_do::params::base_dir,
-    $extract_dir    = $download_and_do::params::extract_dir,
-    $download_dir   = $download_and_do::params::download_dir,
-    $allow_insecure = $download_and_do::params::allow_insecure,
-    $provider       = $download_and_do::params::provider,
+    Variant[String, Array[String]]  $path,
+    String                          $base_dir,
+    String                          $extract_dir,
+    String                          $download_dir,
+    String                          $provider,
+    Boolean                         $allow_insecure = false,
 ) {
 
   file { [$base_dir, $extract_dir, $download_dir]:
