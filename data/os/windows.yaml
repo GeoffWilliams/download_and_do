@@ -1,8 +1,11 @@
 # data/os/windows.yaml
 ---
-download_and_do::base_dir: "c:/windows/temp/cache/download_and_do"
-download_and_do::download_dir: "c:/windows/temp/cache/download_and_do/download"
-download_and_do::extract_dir: "c:/windows/temp/cache/download_and_do/extract"
+download_and_do::base_dir: "c:/windows/temp/download_and_do"
+download_and_do::download_dir: "c:/windows/temp/download_and_do/download"
+download_and_do::extract_dir: "c:/windows/temp/download_and_do/extract"
 download_and_do::path:
   - 'c:/windows'
   - 'c:/windows/system32'
+download_and_do::file_owner: "Administrators"
+download_and_do::file_group: ~
+download_and_do::provider: "windows"

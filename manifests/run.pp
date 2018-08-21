@@ -13,12 +13,13 @@
 #   execute anything
 # @param unless Pass-through parameter to exec to control whether to run or not
 # @param onlyif Pass-through parameter to exec to control whether to run or not
-# @param user User for file ownership and to run command with
+# @param user User for file ownership and to run command (not supported on windows)
 # @param group Group for file ownership
 # @param environment Environment variables (BASH) to run command with
 # @param arguments Arguments to pass to the downloaded file to be run
 # @param allow_insecure Allow insecure HTTPS downloads
-# @param provider Set the exec provider - needed if `cd` is a builtin
+# @param provider Set the exec provider - needed as `cd` is a builtin. On windows you will need to set
+#   `powershell` if you are attempting to download and execute powershell
 # @param timeout How long to wait before killing command we were told to run, in seconds.
 #   Pass `0` to wait upto forever seconds for the command to complete
 # @param proxy_server specify a proxy server, with port number if needed. ie: https://example.com:8080.
@@ -43,14 +44,22 @@ define download_and_do::run(
   Optional[String]                $proxy_type     = undef,
 ) {
 
-  $chmod_file_exec  = "chmod after download ${title}"
-  $run_file_exec    = "run after download ${title}"
-  $local_file_path  = "${download_dir}/${local_file}"
+  $chmod_file_exec      = "chmod after download ${title}"
+  $run_file_exec        = "run after download ${title}"
+  $local_file_path      = "${download_dir}/${local_file}"
+  $after_download_exec  = $facts["os"]["family"] ? {
+    "windows" => $run_file_exec,
+    default   => $chmod_file_exec
+  }
 
   if $checksum {
     $checksum_type = "sha1"
   } else {
     $checksum_type = undef
+  }
+
+  if $user and $facts['os']['family'] == "windows" {
+    fail("Running as different user not supported on windows")
   }
 
   # Download will always be owned by root, user parameter only for extract
@@ -66,16 +75,18 @@ define download_and_do::run(
     allow_insecure => $allow_insecure,
     proxy_server   => $proxy_server,
     proxy_type     => $proxy_type,
-    notify         => Exec[$chmod_file_exec]
+    notify         => Exec[$after_download_exec],
   }
 
   # chmod +x the script so it can be run natively.  Separate exec due to being
-  # done as root always
-  exec { $chmod_file_exec:
-    command     => "/bin/chmod +x ${local_file_path}",
-    refreshonly => true,
-    user        => "root",
-    notify      => Exec[$run_file_exec],
+  # done as root always (non-windows only)
+  if $facts['os']['family'] != "windows" {
+    exec { $chmod_file_exec:
+      command     => "/bin/chmod +x ${local_file_path}",
+      refreshonly => true,
+      user        => "root",
+      notify      => Exec[$run_file_exec],
+    }
   }
 
   # Run the now-executable script if we need to

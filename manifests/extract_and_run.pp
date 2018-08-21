@@ -17,11 +17,12 @@
 #   execute anything
 # @param unless Pass-through parameter to exec to control whether to run or not
 # @param onlyif Pass-through parameter to exec to control whether to run or not
-# @param user User for file ownership and to run command with
+# @param user User for file ownership and to run command with (not supported on windows)
 # @param group Group for file ownership
 # @param environment Environment variables (BASH) to run command with
 # @param allow_insecure Allow insecure HTTPS downloads
-# @param provider Set the exec provider - needed if `cd` is a builtin
+# @param provider Set the exec provider - needed as `cd` is a builtin. On windows you will need to set
+#   `powershell` if you are attempting to download and execute powershell
 # @param timeout How long to wait before killing command we were told to run, in seconds.
 #   Pass `0` to wait upto forever seconds for the command to complete
 # @param proxy_server specify a proxy server, with port number if needed. ie: https://example.com:8080.
@@ -55,6 +56,11 @@ define download_and_do::extract_and_run(
   } else {
     $checksum_type = undef
   }
+
+  if $user and $facts['os']['family'] == "windows" {
+    fail("Running as different user not supported on windows")
+  }
+
 
   archive { $local_file_path:
     ensure         => present,

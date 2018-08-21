@@ -12,21 +12,27 @@
 # @param extract_dir Directory to extract archives in (from module hiera data)
 # @param download_dir Directory to download files to (from module hiera data)
 # @param provider Shell provider to use (from module hiera data)
+# @param file_owner Owner for directory used to cache files
+# @param file_group Group for directory used to cache files
 # @param allow_insecure Disable certificate validation (from module hiera data)
+# @param file_mode Mode for directory used to cache files
 class download_and_do(
     Variant[String, Array[String]]  $path,
     String                          $base_dir,
     String                          $extract_dir,
     String                          $download_dir,
     String                          $provider,
+    String                          $file_owner,
+    Variant[Undef, String, Integer] $file_group,
     Boolean                         $allow_insecure = false,
+    String                          $file_mode      = "0755",
 ) {
 
   file { [$base_dir, $extract_dir, $download_dir]:
     ensure => directory,
-    owner  => "root",
-    group  => 0,
-    mode   => "0755",
+    owner  => $file_owner,
+    group  => $file_group,
+    mode   => $file_mode,
   }
 
 }

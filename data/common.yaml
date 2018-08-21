@@ -10,5 +10,6 @@ download_and_do::path:
   - '/sbin'
   - '/usr/local/bin'
   - '/usr/local/sbin'
-download_and_do::provider: 'shell'
-
+download_and_do::provider: "shell"
+download_and_do::file_owner: "root"
+download_and_do::file_group: 0
