@@ -279,7 +279,7 @@ anything</p>
       
         &mdash;
         <div class='inline'>
-<p>User for file ownership and to run command with</p>
+<p>User for file ownership and to run command with (not supported on windows)</p>
 </div>
       
     </li>
@@ -351,7 +351,9 @@ anything</p>
       
         &mdash;
         <div class='inline'>
-<p>Set the exec provider - needed if <code>cd</code> is a builtin</p>
+<p>Set the exec provider - needed as <code>cd</code> is a builtin. On windows
+you will need to set <code>powershell</code> if you are attempting to
+download and execute powershell</p>
 </div>
       
     </li>
@@ -423,7 +425,6 @@ href="https://example.com:8080">example.com:8080</a>.</p>
         <pre class="lines">
 
 
-29
 30
 31
 32
@@ -483,10 +484,16 @@ href="https://example.com:8080">example.com:8080</a>.</p>
 86
 87
 88
-89</pre>
+89
+90
+91
+92
+93
+94
+95</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/extract_and_run.pp', line 29</span>
+        <pre class="code"><span class="info file"># File 'manifests/extract_and_run.pp', line 30</span>
 
 define download_and_do::extract_and_run(
     String                                    $source,
@@ -517,6 +524,11 @@ define download_and_do::extract_and_run(
   } else {
     $checksum_type = undef
   }
+
+  if $user and $facts[&#39;os&#39;][&#39;family&#39;] == &quot;windows&quot; {
+    fail(&quot;Running as different user not supported on windows&quot;)
+  }
+
 
   archive { $local_file_path:
     ensure         =&gt; present,

@@ -1,4 +1,4 @@
-# @PDQTestWin
+# @WPDQTest
 class { "download_and_do":
   provider => powershell,
 }

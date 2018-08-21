@@ -243,7 +243,7 @@ anything</p>
       
         &mdash;
         <div class='inline'>
-<p>User for file ownership and to run command with</p>
+<p>User for file ownership and to run command (not supported on windows)</p>
 </div>
       
     </li>
@@ -333,7 +333,9 @@ anything</p>
       
         &mdash;
         <div class='inline'>
-<p>Set the exec provider - needed if <code>cd</code> is a builtin</p>
+<p>Set the exec provider - needed as <code>cd</code> is a builtin. On windows
+you will need to set <code>powershell</code> if you are attempting to
+download and execute powershell</p>
 </div>
       
     </li>
@@ -405,7 +407,6 @@ href="https://example.com:8080">example.com:8080</a>.</p>
         <pre class="lines">
 
 
-26
 27
 28
 29
@@ -474,10 +475,21 @@ href="https://example.com:8080">example.com:8080</a>.</p>
 92
 93
 94
-95</pre>
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/run.pp', line 26</span>
+        <pre class="code"><span class="info file"># File 'manifests/run.pp', line 27</span>
 
 define download_and_do::run(
   String                          $source,
@@ -499,14 +511,22 @@ define download_and_do::run(
   Optional[String]                $proxy_type     = undef,
 ) {
 
-  $chmod_file_exec  = &quot;chmod after download ${title}&quot;
-  $run_file_exec    = &quot;run after download ${title}&quot;
-  $local_file_path  = &quot;${download_dir}/${local_file}&quot;
+  $chmod_file_exec      = &quot;chmod after download ${title}&quot;
+  $run_file_exec        = &quot;run after download ${title}&quot;
+  $local_file_path      = &quot;${download_dir}/${local_file}&quot;
+  $after_download_exec  = $facts[&quot;os&quot;][&quot;family&quot;] ? {
+    &quot;windows&quot; =&gt; $run_file_exec,
+    default   =&gt; $chmod_file_exec
+  }
 
   if $checksum {
     $checksum_type = &quot;sha1&quot;
   } else {
     $checksum_type = undef
+  }
+
+  if $user and $facts[&#39;os&#39;][&#39;family&#39;] == &quot;windows&quot; {
+    fail(&quot;Running as different user not supported on windows&quot;)
   }
 
   # Download will always be owned by root, user parameter only for extract
@@ -522,16 +542,18 @@ define download_and_do::run(
     allow_insecure =&gt; $allow_insecure,
     proxy_server   =&gt; $proxy_server,
     proxy_type     =&gt; $proxy_type,
-    notify         =&gt; Exec[$chmod_file_exec]
+    notify         =&gt; Exec[$after_download_exec],
   }
 
   # chmod +x the script so it can be run natively.  Separate exec due to being
-  # done as root always
-  exec { $chmod_file_exec:
-    command     =&gt; &quot;/bin/chmod +x ${local_file_path}&quot;,
-    refreshonly =&gt; true,
-    user        =&gt; &quot;root&quot;,
-    notify      =&gt; Exec[$run_file_exec],
+  # done as root always (non-windows only)
+  if $facts[&#39;os&#39;][&#39;family&#39;] != &quot;windows&quot; {
+    exec { $chmod_file_exec:
+      command     =&gt; &quot;/bin/chmod +x ${local_file_path}&quot;,
+      refreshonly =&gt; true,
+      user        =&gt; &quot;root&quot;,
+      notify      =&gt; Exec[$run_file_exec],
+    }
   }
 
   # Run the now-executable script if we need to
