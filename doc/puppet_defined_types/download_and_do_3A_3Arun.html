@@ -397,6 +397,19 @@ href="https://example.com:8080">example.com:8080</a>.</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>path_separator</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>$download_and_do::path_separator</tt>)</em>
+      
+      
+    </li>
+  
 </ul>
 
 
@@ -486,7 +499,8 @@ href="https://example.com:8080">example.com:8080</a>.</p>
 103
 104
 105
-106</pre>
+106
+107</pre>
       </td>
       <td>
         <pre class="code"><span class="info file"># File 'manifests/run.pp', line 27</span>
@@ -509,11 +523,12 @@ define download_and_do::run(
   Optional[Integer]               $timeout        = undef,
   Optional[String]                $proxy_server   = undef,
   Optional[String]                $proxy_type     = undef,
+  String                          $path_separator = $download_and_do::path_separator,
 ) {
 
   $chmod_file_exec      = &quot;chmod after download ${title}&quot;
   $run_file_exec        = &quot;run after download ${title}&quot;
-  $local_file_path      = &quot;${download_dir}/${local_file}&quot;
+  $local_file_path      = &quot;${download_dir}${path_separator}${local_file}&quot;
   $after_download_exec  = $facts[&quot;os&quot;][&quot;family&quot;] ? {
     &quot;windows&quot; =&gt; $run_file_exec,
     default   =&gt; $chmod_file_exec

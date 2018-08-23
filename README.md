@@ -54,8 +54,7 @@ Local filename is a unique relative path within download and do download directo
 ## Limitations
 
 * Requires the puppet archive module
-* Doesn't support proxies here (but puppet-archive does so should be possible)
-* Not supported by Puppet, Inc.
+* You may encounter errors with `download_and_do::extract_and_run` on windows due to shell quoting
 
 ## Development
 

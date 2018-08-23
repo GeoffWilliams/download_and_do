@@ -415,6 +415,37 @@ href="https://example.com:8080">example.com:8080</a>.</p>
       
     </li>
   
+    <li>
+      
+        <span class='name'>cleanup</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Remove extracted archive after download?</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>path_separator</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>$download_and_do::path_separator</tt>)</em>
+      
+      
+    </li>
+  
 </ul>
 
 
@@ -425,7 +456,6 @@ href="https://example.com:8080">example.com:8080</a>.</p>
         <pre class="lines">
 
 
-30
 31
 32
 33
@@ -490,10 +520,26 @@ href="https://example.com:8080">example.com:8080</a>.</p>
 92
 93
 94
-95</pre>
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/extract_and_run.pp', line 30</span>
+        <pre class="code"><span class="info file"># File 'manifests/extract_and_run.pp', line 31</span>
 
 define download_and_do::extract_and_run(
     String                                    $source,
@@ -514,10 +560,12 @@ define download_and_do::extract_and_run(
     Optional[Integer]                         $timeout        = undef,
     Optional[String]                          $proxy_server   = undef,
     Optional[String]                          $proxy_type     = undef,
+    Boolean                                   $cleanup        = true,
+    String                                    $path_separator = $download_and_do::path_separator,
 ) {
 
   $run_relative_exec  = &quot;run_relative after install ${title}&quot;
-  $local_file_path    = &quot;${download_dir}/${local_file}&quot;
+  $local_file_path    = &quot;${download_dir}${path_separator}${local_file}&quot;
 
   if $checksum {
     $checksum_type = &quot;sha1&quot;
@@ -537,7 +585,7 @@ define download_and_do::extract_and_run(
     source         =&gt; $source,
     checksum       =&gt; $checksum,
     checksum_type  =&gt; $checksum_type,
-    cleanup        =&gt; true,
+    cleanup        =&gt; $cleanup,
     creates        =&gt; $creates,
     user           =&gt; $user,
     group          =&gt; $group,
@@ -547,9 +595,22 @@ define download_and_do::extract_and_run(
     notify         =&gt; Exec[$run_relative_exec]
   }
 
+  if $facts[&#39;os&#39;][&#39;family&#39;] == &quot;windows&quot; and $provider != &quot;powershell&quot; {
+    # traditional windows CMD.exe uses `&amp;&amp;` but everything needs to be wrapped in
+    # quotes and fed to CMD.exe. There isn&#39;t a windows shell quoting function so
+    # we just use 2x doubles (using 2x singles fails)...
+    $command = &quot;cmd /C \&quot;cd ${extract_dir} &amp;&amp; ${run_relative}\&quot;&quot;
+  } else {
+    # every other OS including windows + powershell can use this one. We don&#39;t check
+    # the `cd` succeeds any more because of windows issue (`&amp;&amp;` not supported; `-and`
+    # swallows output:
+    # https://stackoverflow.com/questions/563600/can-i-get-to-work-in-powershell
+    # we just assume it succeeded instead
+    $command = &quot;cd ${extract_dir} ; ${run_relative}&quot;
+  }
 
   exec { $run_relative_exec:
-    command     =&gt; &quot;cd ${extract_dir} &amp;&amp; ${run_relative}&quot;,
+    command     =&gt; $command,
     refreshonly =&gt; true,
     creates     =&gt; $creates,
     unless      =&gt; $unless,

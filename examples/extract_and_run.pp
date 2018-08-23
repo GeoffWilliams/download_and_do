@@ -6,6 +6,7 @@ download_and_do::extract_and_run { "test.tar.gz":
   download_dir => "/usr/download",
   extract_dir  => "/usr/extract",
   user         => "bob",
+  cleanup => false,
 }
 
 # second run to detect duplicate resources

@@ -42,11 +42,12 @@ define download_and_do::run(
   Optional[Integer]               $timeout        = undef,
   Optional[String]                $proxy_server   = undef,
   Optional[String]                $proxy_type     = undef,
+  String                          $path_separator = $download_and_do::path_separator,
 ) {
 
   $chmod_file_exec      = "chmod after download ${title}"
   $run_file_exec        = "run after download ${title}"
-  $local_file_path      = "${download_dir}/${local_file}"
+  $local_file_path      = "${download_dir}${path_separator}${local_file}"
   $after_download_exec  = $facts["os"]["family"] ? {
     "windows" => $run_file_exec,
     default   => $chmod_file_exec

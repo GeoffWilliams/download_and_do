@@ -206,6 +206,23 @@ for a detailed explanation</p>
   
     <li>
       
+        <span class='name'>path_separator</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Character used to separate paths - <code>/</code> on everything except
+windows</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
         <span class='name'>allow_insecure</span>
       
       
@@ -250,8 +267,6 @@ for a detailed explanation</p>
         <pre class="lines">
 
 
-19
-20
 21
 22
 23
@@ -269,10 +284,13 @@ for a detailed explanation</p>
 35
 36
 37
-38</pre>
+38
+39
+40
+41</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 19</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 21</span>
 
 class download_and_do(
     Variant[String, Array[String]]  $path,
@@ -282,6 +300,7 @@ class download_and_do(
     String                          $provider,
     String                          $file_owner,
     Variant[Undef, String, Integer] $file_group,
+    String                          $path_separator,
     Boolean                         $allow_insecure = false,
     String                          $file_mode      = &quot;0755&quot;,
 ) {

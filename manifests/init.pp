@@ -14,6 +14,8 @@
 # @param provider Shell provider to use (from module hiera data)
 # @param file_owner Owner for directory used to cache files
 # @param file_group Group for directory used to cache files
+# @param path_separator Character used to separate paths - `/` on everything
+#   except windows
 # @param allow_insecure Disable certificate validation (from module hiera data)
 # @param file_mode Mode for directory used to cache files
 class download_and_do(
@@ -24,6 +26,7 @@ class download_and_do(
     String                          $provider,
     String                          $file_owner,
     Variant[Undef, String, Integer] $file_group,
+    String                          $path_separator,
     Boolean                         $allow_insecure = false,
     String                          $file_mode      = "0755",
 ) {
