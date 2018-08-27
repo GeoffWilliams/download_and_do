@@ -14,8 +14,7 @@
 # @param provider Shell provider to use (from module hiera data)
 # @param file_owner Owner for directory used to cache files
 # @param file_group Group for directory used to cache files
-# @param path_separator Character used to separate paths - `/` on everything
-#   except windows
+# @param path_separator Path separator character to use on this OS
 # @param allow_insecure Disable certificate validation (from module hiera data)
 # @param file_mode Mode for directory used to cache files
 class download_and_do(

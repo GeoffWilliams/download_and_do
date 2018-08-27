@@ -4,7 +4,7 @@
 
 1. [Description](#description)
 1. [Usage - Configuration options and additional functionality](#usage)
-1. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
+1. [Reference - An under-the-hood peek at what the module is doing and how](REFERENCE.md)
 1. [Limitations - OS compatibility, etc.](#limitations)
 1. [Development - Guide for contributing to the module](#development)
 
@@ -40,15 +40,6 @@ download_and_do::run { "test.sh":
 Download from `source` to `title`, then make the local file executable and run it.  Pass the `creates` parameter to specify the presence of a file that means that the resource is already converged.
 
 Local filename is a unique relative path within download and do download directory `/var/cache/download_and_do`.
-
-## Reference
-
-### Classes
-* `download_and_do` - Class to setup the module and general download directories.  Needs to be included first
-
-### Defined types
-* `download_and_do::run` - Defined resource type to download and run a file
-* `Download_and_do::extract_and_run` - Defined resource type to download, extract and run a command
 
 
 ## Limitations

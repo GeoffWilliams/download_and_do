@@ -24,6 +24,7 @@
 #   Pass `0` to wait upto forever seconds for the command to complete
 # @param proxy_server specify a proxy server, with port number if needed. ie: https://example.com:8080.
 # @param proxy_type proxy server type (none|http|https|ftp)
+# @param path_separator Path separator character to use on this OS
 define download_and_do::run(
   String                                    $source,
   String                                    $local_file     = $title,

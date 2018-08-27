@@ -28,6 +28,7 @@
 # @param proxy_server specify a proxy server, with port number if needed. ie: https://example.com:8080.
 # @param proxy_type proxy server type (none|http|https|ftp)
 # @param cleanup Remove extracted archive after download?
+# @param path_separator Path separator character to use on this OS
 define download_and_do::extract_and_run(
     String                                    $source,
     String                                    $run_relative,
