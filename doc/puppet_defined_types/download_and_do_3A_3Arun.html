@@ -271,7 +271,7 @@ anything</p>
         <span class='name'>environment</span>
       
       
-        <span class='type'>(<tt>Optional[String]</tt>)</span>
+        <span class='type'>(<tt>Optional[Variant[String, Array[String]]]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>undef</tt>)</em>
@@ -506,24 +506,24 @@ href="https://example.com:8080">example.com:8080</a>.</p>
         <pre class="code"><span class="info file"># File 'manifests/run.pp', line 27</span>
 
 define download_and_do::run(
-  String                          $source,
-  String                          $local_file     = $title,
-  String                          $download_dir   = $download_and_do::download_dir,
-  Variant[String, Array[String]]  $path           = $download_and_do::path,
-  Optional[String]                $checksum       = undef,
-  Optional[String]                $creates        = undef,
-  Optional[String]                $unless         = undef,
-  Optional[String]                $onlyif         = undef,
-  Optional[String]                $user           = undef,
-  Optional[String]                $group          = undef,
-  Optional[String]                $environment    = undef,
-  String                          $arguments      = &quot;&quot;,
-  Boolean                         $allow_insecure = $download_and_do::allow_insecure,
-  String                          $provider       = $download_and_do::provider,
-  Optional[Integer]               $timeout        = undef,
-  Optional[String]                $proxy_server   = undef,
-  Optional[String]                $proxy_type     = undef,
-  String                          $path_separator = $download_and_do::path_separator,
+  String                                    $source,
+  String                                    $local_file     = $title,
+  String                                    $download_dir   = $download_and_do::download_dir,
+  Variant[String, Array[String]]            $path           = $download_and_do::path,
+  Optional[String]                          $checksum       = undef,
+  Optional[String]                          $creates        = undef,
+  Optional[String]                          $unless         = undef,
+  Optional[String]                          $onlyif         = undef,
+  Optional[String]                          $user           = undef,
+  Optional[String]                          $group          = undef,
+  Optional[Variant[String, Array[String]]]  $environment    = undef,
+  String                                    $arguments      = &quot;&quot;,
+  Boolean                                   $allow_insecure = $download_and_do::allow_insecure,
+  String                                    $provider       = $download_and_do::provider,
+  Optional[Integer]                         $timeout        = undef,
+  Optional[String]                          $proxy_server   = undef,
+  Optional[String]                          $proxy_type     = undef,
+  String                                    $path_separator = $download_and_do::path_separator,
 ) {
 
   $chmod_file_exec      = &quot;chmod after download ${title}&quot;
