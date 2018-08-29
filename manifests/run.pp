@@ -1,8 +1,12 @@
-# Download_and_do::Run
+# @summary Download a file and then run it
 #
-# Download a file and then run it. Perfect for things like self-installing bash
-# scripts.  The script will be retained after running.  Use the checksum to force
-# a local update and reinstall
+# Perfect for things like self-installing bash scripts.  The script will be
+# retained after running.  Use the checksum to force a local update and reinstall
+#
+# @example Download a test script and run it
+#   download_and_do::run { "test2.sh":
+#     source => "http://files.megacorp.com/testcase/spec/mock/test2.sh",
+#   }
 #
 # @param source File to download
 # @param local_file Where to save the file (inside $download_dir)

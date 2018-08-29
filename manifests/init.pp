@@ -1,4 +1,4 @@
-# Download_and_do
+# @summary Create common directories and set defaults
 #
 # Download_and_do base class to make download directories and for for setting default resource
 # parameters

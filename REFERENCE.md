@@ -5,18 +5,16 @@
 
 **Classes**
 
-* [`download_and_do`](#download_and_do): Download_and_do  Download_and_do base class to make download directories and for for setting default resource parameters  Parameters on this 
+* [`download_and_do`](#download_and_do): Create common directories and set defaults
 
 **Defined types**
 
-* [`download_and_do::extract_and_run`](#download_and_doextract_and_run): Download_and_do::Run  Download a file, extract it and then run a command.  Perfect for things like downloadable tarballs containing RPMs to i
-* [`download_and_do::run`](#download_and_dorun): Download_and_do::Run  Download a file and then run it. Perfect for things like self-installing bash scripts.  The script will be retained aft
+* [`download_and_do::extract_and_run`](#download_and_doextract_and_run): Download a file, extract it and then run a command.
+* [`download_and_do::run`](#download_and_dorun): Download a file and then run it
 
 ## Classes
 
 ### download_and_do
-
-Download_and_do
 
 Download_and_do base class to make download directories and for for setting default resource
 parameters
@@ -97,13 +95,22 @@ Default value: "0755"
 
 ### download_and_do::extract_and_run
 
-Download_and_do::Run
-
-Download a file, extract it and then run a command.
-
 Perfect for things like downloadable tarballs containing RPMs to install.
 The downloaded archive will be retained after running.  Use the checksum to force
 a local update and reinstall
+
+#### Examples
+
+##### Download a tarball, extact it and run its install script
+
+```puppet
+download_and_do::extract_and_run { "test.tar.gz":
+  source       => "http://files.megacorp.com/testcase/spec/mock/test.tar.gz",
+  run_relative => "./install.sh",
+  download_dir => "/usr/download",
+  extract_dir  => "/usr/extract",
+}
+```
 
 #### Parameters
 
@@ -270,11 +277,18 @@ Default value: $download_and_do::path_separator
 
 ### download_and_do::run
 
-Download_and_do::Run
+Perfect for things like self-installing bash scripts.  The script will be
+retained after running.  Use the checksum to force a local update and reinstall
 
-Download a file and then run it. Perfect for things like self-installing bash
-scripts.  The script will be retained after running.  Use the checksum to force
-a local update and reinstall
+#### Examples
+
+##### Download a test script and run it
+
+```puppet
+download_and_do::run { "test2.sh":
+  source => "http://files.megacorp.com/testcase/spec/mock/test2.sh",
+}
+```
 
 #### Parameters
 

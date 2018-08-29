@@ -1,10 +1,16 @@
-# Download_and_do::Run
-#
-# Download a file, extract it and then run a command.
+# @summary Download a file, extract it and then run a command.
 #
 # Perfect for things like downloadable tarballs containing RPMs to install.
 # The downloaded archive will be retained after running.  Use the checksum to force
 # a local update and reinstall
+#
+# @example Download a tarball, extact it and run its install script
+#   download_and_do::extract_and_run { "test.tar.gz":
+#     source       => "http://files.megacorp.com/testcase/spec/mock/test.tar.gz",
+#     run_relative => "./install.sh",
+#     download_dir => "/usr/download",
+#     extract_dir  => "/usr/extract",
+#   }
 #
 # @param source Location to download archive from
 # @param download_dir Directory to download archive to if not using module default
